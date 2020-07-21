@@ -313,32 +313,93 @@ El método de matriz `.map()` aparece a menudo en React. Es bueno acostumbrarse 
 Si desea crear una lista de elementos JSX, entonces `.map()` suele ser su mejor opción. Al principio puede parecer extraño:
 
 ```jsx
-const strings = ['Home', 'Shop', 'About Me'];
+const strings = ["Home", "Shop", "About Me"];
 
-const listItems = strings.map(string => <li>{string}</li>);
+const listItems = strings.map((string) => <li>{string}</li>);
 
-<ul> {listItems} </ul>
+<ul> {listItems} </ul>;
 ```
 
-En el ejemplo anterior, comenzamos con una serie de cadenas. Llamamos a .map () en esta matriz de cadenas, y la llamada .map () devuelve una nueva matriz de <li> s.
+En el ejemplo anterior, comenzamos con una matriz de strings. Llamamos a `.map()` en esta matriz de strings, y la llamada `.map()` devuelve una nueva matriz de `<li>`s.
 
-En la última línea del ejemplo, tenga en cuenta que {listItems} se evaluará en una matriz, ¡porque es el valor devuelto de .map ()! Los JSX <li> no tienen que estar en una matriz como esta, pero pueden estarlo.
+En la última línea del ejemplo, tenga en cuenta que `{listItems}` se evaluará en una matriz, ¡porque es el valor devuelto de `.map()`! Los `<li>` JSX no tienen que estar en una matriz como esta, pero pueden estarlo.
 
+```jsx
 // Esto está bien en JSX, no en una matriz explícita:
 
 <ul>
-   <li> elemento 1 </li>
-   <li> elemento 2 </li>
-   <li> elemento 3 </li>
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>
 </ul>
 
 // ¡Esto también está bien!
 
 const liArray = [
-
-   <li> elemento 1 </li>,
-   <li> elemento 2 <li>,
-   <li> elemento 3 </li>
+  <li>Item 1</li>,
+  <li>Item 2<li>,
+  <li>Item 3</li>
 ];
 
-<ul> {liArray} </ul>
+<ul>{liArray}</ul>
+```
+
+---
+
+# Keys
+
+Cuando haces una lista en JSX, a veces tu lista necesitará incluir algo llamado `keys`:
+
+```HTML
+<ul>
+  <li key="li-01">Ejemplo1</li>
+  <li key="li-02">Ejemplo2</li>
+  <li key="li-03">Ejemplo3</li>
+</ul>
+```
+
+Una `key` es un atributo JSX. El _nombre_ del atributo es `key`. El _valor_ del atributo debe ser algo único, similar a un atributo `id`.
+
+¡las `keys` no hacen nada que puedas ver! React las usa internamente para realizar un seguimiento de las listas. Si no usa las keys cuando se supone que debe hacerlo, React podría mezclar accidentalmente sus elementos de la lista en el orden incorrecto.
+
+No todas las listas necesitan tener `keys`. Una lista necesita `keys` si se cumple alguna de las siguientes condiciones:
+
+1. Los elementos de la lista tienen _memoria_ de un render al siguiente. Por ejemplo, cuando se renderiza una lista de tareas, cada elemento debe "recordar" si se marcó. Los elementos no deberían tener amnesia cuando se procesan.
+
+2. Se podría barajar el orden de una lista. Por ejemplo, una lista de resultados de búsqueda puede ser barajada de un render al siguiente.
+
+Si ninguna de estas condiciones es cierta, entonces no tiene que preocuparse por las `keys`. Si no estás seguro, ¡nunca está de más usarlos!
+
+---
+
+# React.createElement
+
+¡Puedes escribir código React sin usar JSX!
+
+La mayoría de los programadores de React sí usan JSX, y lo usaremos para el resto de este tutorial, pero debes entender que es posible escribir código React sin él.
+
+La siguiente expresión JSX:
+
+```jsx
+const h1 = <h1>Hello world</h1>;
+```
+
+puede reescribirse sin JSX, de esta manera:
+
+```jsx
+const h1 = React.createElement("h1", null, "Hello, world");
+```
+
+Cuando se compila un elemento JSX, el compilador _transforma_ el elemento JSX en el método que ve arriba: `React.createElement()`. Cada elemento JSX es secretamente una llamada a `React.createElement()`.
+
+No profundizaremos en cómo funciona `React.createElement()`, pero puede comenzar con la [documentación](http://facebook.github.io/react/docs/top-level-api.html#react.createelement) si desea obtener más información.
+
+---
+
+# Resumen de JSX
+
+¡Felicidades! Ha completado la unidad en JSX.
+
+Has aprendido una amplia variedad de conceptos JSX. Si todavía no sientes que los has dominado a todos, ¡está bien! Estos conceptos surgirán una y otra vez a lo largo de este curso y los siguientes.
+
+¡Ahora está listo para usar su conocimiento de JSX! Es hora de pasar al siguiente tema principal: Componentes React.
